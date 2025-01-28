@@ -1,3 +1,7 @@
+# Nutralia
+odoo_price_control/*
+!README.rst
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
