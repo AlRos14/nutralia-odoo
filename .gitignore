@@ -1,6 +1,6 @@
 # Nutralia
 odoo_price_control/*
-!README.rst
+!README.md
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
