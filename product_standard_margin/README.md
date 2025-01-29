@@ -85,7 +85,7 @@ Bugs are tracked on [GitHub Issues](https://github.com/OCA/margin-analysis/issue
 
 ### Adaptations for Nutralia Foods
 
-- [Alejandro Rosado / Nutralia Foods Team]
+- Alejandro Rosado
 
 ---
 
@@ -96,3 +96,7 @@ This module has been adapted and is maintained by **Nutralia Foods** to manage a
 The original code is maintained by the [Odoo Community Association (OCA)](https://odoo-community.org), a nonprofit organization whose mission is to support the collaborative development of Odoo features and promote its widespread use.
 
 To learn how to contribute, visit: [Contribute to OCA](https://odoo-community.org/page/Contribute).
+
+## License
+
+This module is licensed under the **AGPL-3.0** (GNU Affero General Public License v3.0), as maintained by the [Odoo Community Association (OCA)](https://odoo-community.org/page/license).
