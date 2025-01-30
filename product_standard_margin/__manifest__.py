@@ -3,13 +3,15 @@
 # Copyright (C) 2019 - Today: GRAP (http://www.grap.coop)
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# Modified by Alejandro Rosado for Nutralia Foods, respecting the original AGPLv3 license.
+
+
 {
     "name": "Product Margin and Margin Rate",
-    "version": "16.0.1.0.3",
-    "author": "Camptocamp,GRAP,Odoo Community Association (OCA)",
+    "version": "16.0.1.0.4",
+    "author": "Camptocamp,GRAP,Odoo Community Association (OCA), Alejandro Rosado",
     "category": "Product",
     "depends": ["account"],
-    "maintainers": ["legalsylvain"],
     "website": "https://github.com/OCA/margin-analysis",
     "data": ["views/view_product_product.xml", "views/view_product_template.xml"],
     "license": "AGPL-3",

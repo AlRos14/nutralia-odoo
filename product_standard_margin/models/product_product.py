@@ -3,6 +3,8 @@
 # Copyright (C) 2019 - Today: GRAP (http://www.grap.coop)
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# Modified by Alejandro Rosado for Nutralia Foods, respecting the original AGPLv3 license.
+
 
 from odoo import api, fields, models
 
