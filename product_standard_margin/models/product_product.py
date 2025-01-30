@@ -51,15 +51,16 @@ class ProductProduct(models.Model):
     )
 
     final_cost = fields.Float(
-        string="Final cost",
-        digits="Product Price",
-        help="Final cost is [ cost price (Wo Tax) + other costs (labels, shipping...) ] ",
-    )
+        'Final cost', company_dependent=True,
+        digits='Product Price',
+        groups="base.group_user",
+        help="""Same behavior that standard_price. It's works as a new field where you can put standard_price + additional costs (labels, shipping...)""")
 
 
     final_margin = fields.Float(
         compute="_compute_final_margin",
         string="Final margin",
+        store=True,
         digits="Product Price",
         help="Final margin is [ sale price (Wo Tax) - Final cost ] "
         "of the product form (not based on historical values). "
@@ -68,8 +69,9 @@ class ProductProduct(models.Model):
     )
 
     final_margin_rate = fields.Float(
-        compute="_compute_final_margin",
+        compute="_compute_final_margin",        
         string="Final margin (%)",
+        store=True,
         digits="Product Price",
         help="Margin rate is [ Final margin / sale price (Wo Tax) ] "
         "of the product form (not based on historical values)."
@@ -78,6 +80,7 @@ class ProductProduct(models.Model):
     )
     final_markup_rate = fields.Float(
         compute="_compute_final_margin",
+        store=True,
         string="Final markup (%)",
         digits="Product Price",
         help="Markup rate is [ Final margin / cost price (Wo Tax) ] "
@@ -120,6 +123,14 @@ class ProductProduct(models.Model):
                     * 100
                 )
 
+    @api.depends(
+        "lst_price",
+        "final_cost",
+        "product_tmpl_id.list_price",
+        "taxes_id.price_include",
+        "taxes_id.amount",
+        "taxes_id.include_base_amount",
+    )
     def _compute_final_margin(self):
         for product in self:
             product.list_price_vat_excl = product.taxes_id.compute_all(

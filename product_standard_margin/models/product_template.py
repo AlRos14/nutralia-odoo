@@ -47,10 +47,10 @@ class ProductTemplate(models.Model):
     )
 
     final_cost = fields.Float(
-        string="Final cost",
-        digits="Product Price",
-        help="Final cost is [ cost price (Wo Tax) + other costs (labels, shipping...) ] ",
-    )
+        'Final cost', compute='_compute_final_cost',
+        inverse='_set_final_cost', search='_search_final_cost',
+        digits='Product Price', groups="base.group_user",
+        help="""Same behavior that standard_price. It's works as a new field where you can put standard_price + additional costs (labels, shipping...)""")
 
 
     final_margin = fields.Float(
@@ -81,6 +81,27 @@ class ProductTemplate(models.Model):
         "Take care of tax include and exclude.. If no cost price "
         "set, will display 999.0",
     )
+
+
+    @api.depends_context('company')
+    @api.depends('product_variant_ids', 'product_variant_ids.final_cost')
+    def _compute_final_cost(self):
+        # Depends on force_company context because final_cost is company_dependent
+        # on the product_product
+        unique_variants = self.filtered(lambda template: len(template.product_variant_ids) == 1)
+        for template in unique_variants:
+            template.final_cost = template.product_variant_ids.final_cost
+        for template in (self - unique_variants):
+            template.final_cost = 0.0
+
+    def _set_final_cost(self):
+        for template in self:
+            if len(template.product_variant_ids) == 1:
+                template.product_variant_ids.final_cost = template.final_cost
+
+    def _search_final_cost(self, operator, value):
+        products = self.env['product.product'].search([('final_cost', operator, value)], limit=None)
+        return [('id', 'in', products.mapped('product_tmpl_id').ids)]
 
 
     # Compute Section
@@ -119,6 +140,12 @@ class ProductTemplate(models.Model):
                     * 100
                 )
 
+    @api.depends(
+        "list_price",
+        "taxes_id.price_include",
+        "taxes_id.amount",
+        "taxes_id.include_base_amount",
+    )
     def _compute_final_margin(self):
         for template in self:
             template.list_price_vat_excl = template.taxes_id.compute_all(
