@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
+# Modified by Alejandro Rosado for Nutralia Foods, respecting the original LGPLv3 license.
+
 
 from odoo import api, fields, models
 
@@ -27,11 +29,17 @@ class SaleOrderLine(models.Model):
             product_cost = line.product_id.final_cost
             line.total_cost = line._convert_price(product_cost, line.product_id.uom_id)
 
-    @api.depends('price_subtotal', 'product_uom_qty', 'total_cost')
+    @api.depends('qty_invoiced', 'price_subtotal', 'product_uom_qty', 'total_cost')
     def _compute_final_margin(self):
         for line in self:
-            line.final_margin = line.price_subtotal - (line.total_cost * line.product_uom_qty)
-            line.final_margin_percent = line.price_subtotal and line.final_margin/line.price_subtotal
+            invoiced_qty = line.qty_invoiced
+            if invoiced_qty > 0:
+                price_subtotal = line.price_unit * invoiced_qty
+                line.final_margin = price_subtotal - (line.total_cost * invoiced_qty)
+                line.final_margin_percent = price_subtotal and line.final_margin / price_subtotal
+            else:
+                line.final_margin = line.price_subtotal - (line.total_cost * line.product_uom_qty)
+                line.final_margin_percent = line.price_subtotal and line.final_margin / line.price_subtotal
 
     def _convert_price(self, product_cost, from_uom):
         self.ensure_one()
@@ -58,3 +66,10 @@ class SaleOrderLine(models.Model):
         ) if to_cur and product_cost else product_cost
         # The pricelist may not have been set, therefore no conversion
         # is needed because we don't know the target currency..
+
+    #if qty_invoiced change the order will be updated
+    def write(self, vals):
+        res = super().write(vals)
+        if 'qty_invoiced' in vals:
+            self.order_id._compute_final_margin()
+        return res

@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
+# Modified by Alejandro Rosado for Nutralia Foods, respecting the original LGPLv3 license.
+
 
 from odoo import api, fields, models
 
