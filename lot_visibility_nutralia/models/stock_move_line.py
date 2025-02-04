@@ -7,7 +7,7 @@ class StockMoveLine(models.Model):
     @api.onchange('picking_id', 'product_id', 'lot_id')
     def _onchange_picking_id(self):
         print("onchange de picking_id ejecutado")
-        if self.picking_id.picking_type_id.code == "outgoing":
+        if self.picking_id.picking_type_id.code in ("outgoing", "internal"):
             return {'domain': {'lot_id': [('product_id', '=', self.product_id.id), 
                                           ('company_id', '=', self.company_id.id), 
                                           ('product_qty', '>', 0)]}}
