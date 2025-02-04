@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
-# Modified by Alejandro Rosado for Nutralia Foods, respecting the original LGPLv3 license.
+# Modified by Alejandro Rosado for Nutralia Foods.
+# This module is licensed under AGPLv3. It is a modification of the original
+# sale_margin module, which was licensed under LGPLv3. 
+# Ensure compliance with AGPLv3 terms when using this module.
 
 
 from odoo import fields, models

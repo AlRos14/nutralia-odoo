@@ -29,12 +29,6 @@ The module adds the following fields to the product form:
    `(Sale price without taxes - Total product cost) / Total product cost`.
 
 With these changes, the system provides a more accurate view of product margins and profitability by considering all relevant costs.
-
-### Visual Example
-
-![Product Form](https://raw.githubusercontent.com/OCA/margin-analysis/16.0/product_standard_margin/static/description/product_form.png)  
-*Product form with the newly added fields.*
-
 ---
 
 ## Important Notes

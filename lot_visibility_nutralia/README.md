@@ -17,5 +17,5 @@ As a result, if you attempt to change the lot of an existing line, all lots will
 
 ### License
 
-This module is licensed under the GNU LGPLv3, respecting the original Odoo license.  
+This module is licensed under the GNU AGPLv3. 
 This is a gift to Nutralia Foods, shared with the community out of goodwill.
